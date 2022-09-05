@@ -1,14 +1,10 @@
 package com.enmivida.info;
 
-import com.enmivida.info.domain.MovieInfo;
 import com.enmivida.info.repository.MovieInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
