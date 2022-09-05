@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: local
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  data:
+    mongodb:
+      host: 192.168.8.103
+      port: 27017
+      database: local
+---
+spring:
+  config:
+    activate:
+      on-profile: non-prod
+  data:
+    mongodb:
+      host: 192.168.8.103
+      port: 27017
+      database: local
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  data:
+    mongodb:
+      host: 192.168.8.103
+      port: 27017
+      database: local
+
