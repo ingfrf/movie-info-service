@@ -4,6 +4,7 @@ import com.enmivida.info.domain.MovieInfo;
 import com.enmivida.info.service.MovieInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,7 +26,12 @@ public class MovieInfoController {
     }
 
     @GetMapping("/movieinfos")
-    public Flux<MovieInfo> getAllMovieInfo() {
+    // year es opcional
+    public Flux<MovieInfo> getAllMovieInfo(@RequestParam(value="year", required = false) Integer year) {
+        if (year != null) {
+            return service.getMovieInfoByYear(year)
+                    .log();
+        }
         return service.getAllMovieInfo()
                 .log();
     }
@@ -37,8 +43,11 @@ public class MovieInfoController {
     }
 
     @PutMapping("/movieinfos/{id}")
-    public Mono<MovieInfo> updateMovieInfo(@RequestBody MovieInfo movieInfo, @PathVariable String id) {
+    public Mono<ResponseEntity<MovieInfo>> updateMovieInfo(@RequestBody MovieInfo movieInfo, @PathVariable String id) {
         return service.updateMovieInfo(movieInfo, id)
+                // viene siendo movInfo -> ResponseEntity.ok().body(movInfo)
+                .map(ResponseEntity.ok()::body)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
                 .log();
     }
 
